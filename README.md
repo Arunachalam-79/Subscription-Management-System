@@ -1,36 +1,52 @@
-# Brightloop Subscriptions - Odoo 17 starter
+Odoo 17 Community module for end-to-end subscription management — plans, recurring billing, discounts, revenue analysis and lifecycle automation.
 
-## Run it (Windows, Docker Desktop)
-1. Install Docker Desktop (enable the WSL2 backend) and restart if asked.
-2. Unzip this folder, open a terminal inside it (VS Code: Terminal > New Terminal).
-3. `docker compose up -d`
-4. Open http://localhost:8069 -> Create database
-   - Master password: `admin`, DB name e.g. `brightloop`, tick "Demo data" OFF
-   - Set your email/password.
-5. Settings > Activate the Developer Mode.
-6. Apps > Update Apps List > remove the "Apps" filter > search "Brightloop" > Install.
-   (Installing pulls in Sales/Invoicing dependencies automatically.)
-7. Open the Brightloop menu.
+## Quick Start
 
-## Daily dev commands
-- Logs:                `docker compose logs -f odoo`
-- Restart after .py edits: `docker compose restart odoo`
-- Upgrade module after model/XML edits:
-  `docker compose exec odoo odoo -c /etc/odoo/odoo.conf -d brightloop -u brightloop_subscription --stop-after-init`
-  then `docker compose restart odoo`
-- Stop: `docker compose down`   (add `-v` to wipe all data)
+**Prerequisites:** Docker Desktop running (Engine running in the status bar).
 
-## Quick test of the core flow
-1. Invoicing/Sales: create product "Odoo CRM" with attribute Brand = Odoo/Other, price extra 560 on Odoo.
-2. Brightloop > Configuration > Plans: create "Monthly" (monthly, 100).
-3. Subscriptions > New: customer, plan, add a line, start date today.
-4. Click Make Quotation > Confirm > Activate.
-5. Configuration > Run Billing Now -> invoice appears. Run again -> no duplicate.
+```bash
+# 1. Unzip and enter the project folder
+cd brightloop-odoo-starter/brightloop
 
-## Folder map
-- docker-compose.yml, config/odoo.conf  : Odoo + Postgres
-- addons/brightloop_subscription/       : your module
-  - models/   plan, discount, quotation_template, subscription(+billing), account_move
-  - security/ groups (Admin/Staff), access rights, portal record rule
-  - data/     sequence + cron (daily billing) + "Run Billing Now"
-  - views/    list/form views and menus
+# 2. Start Odoo + Postgres
+docker compose up -d
+
+# 3. Watch until ready (Ctrl+C to stop watching — Odoo keeps running)
+docker compose logs -f odoo
+# Wait for: "HTTP service running on ..."
+```
+
+**Create the database** at http://localhost:8069:
+
+| Field | Value |
+| --- | --- |
+| Master password | `admin` |
+| Database name | `brightloop` |
+| Demo data | **unticked** |
+
+**Install the module:**
+
+1. Settings → Activate Developer Mode (or add `?debug=1` to the URL)
+2. Apps → Update Apps List → confirm
+3. Remove the "Apps" filter, search **Brightloop**, click **Install**
+
+**Load demo data** (recommended for first use):
+
+Brightloop → Configuration → **Load Demo Data** — one click, \~20 seconds. Creates 13 subscriptions, 49 invoices and 12 months of history.
+
+> The loader runs once per database. To reset, run `docker compose down -v` and start again.
+
+## How the Subscription Cycle Works
+
+Every subscription follows the path below. Daily automation handles billing and expiry with no manual work.
+
+&#91;embedded content: subscription lifecycle · 5 states, 2 automated jobs\]
+
+The key transitions:
+
+- **Make Quotation** validates that the plan is available on today's date and that at least one line exists.
+- **Confirm** enforces the plan's minimum quantity — the system blocks confirmation if the total quantity falls short.
+- **Activate** sets the first billing date and immediately creates an invoice if one is due. From here, the daily job takes over.
+- **Pause / Resume** stops and restarts billing; when resuming, the next invoice date is moved forward to today so the customer is not charged for the paused window.
+- **Renew** copies the subscription as a new Draft linked to the original, ready to go through the cycle again.
+- **Close** is blocked before the expiry date unless the plan explicitly allows early closing.
