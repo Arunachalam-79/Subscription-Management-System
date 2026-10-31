@@ -18,4 +18,6 @@
               action="action_qt" sequence="30"/>
     <menuitem id="menu_run_billing" name="Run Billing Now" parent="menu_config"
               action="action_run_billing" sequence="40"/>
+    <menuitem id="menu_load_demo" name="Load Demo Data" parent="menu_config"
+              action="action_load_demo_data" sequence="95"/>
 </odoo>

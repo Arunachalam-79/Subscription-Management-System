@@ -10,6 +10,7 @@
         'data/sequence.xml',
         'data/cron.xml',
         'data/mail_template.xml',
+        'data/demo_action.xml',
         'views/plan_views.xml',
         'views/discount_views.xml',
         'views/template_views.xml',
