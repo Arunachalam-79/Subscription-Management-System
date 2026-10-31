@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_plan_tree" model="ir.ui.view">
+        <field name="name">brightloop.plan.tree</field>
+        <field name="model">brightloop.plan</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="price"/>
+                <field name="billing_period"/>
+                <field name="min_quantity"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="subscription_count"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_plan_search" model="ir.ui.view">
+        <field name="name">brightloop.plan.search</field>
+        <field name="model">brightloop.plan</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_period" string="Billing Period"
+                            context="{'group_by': 'billing_period'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="view_plan_form" model="ir.ui.view">
+        <field name="name">brightloop.plan.form</field>
+        <field name="model">brightloop.plan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <field name="active" invisible="1"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_subscriptions" type="object"
+                                class="oe_stat_button" icon="fa-refresh">
+                            <field name="subscription_count" widget="statinfo" string="Subscriptions"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Monthly"/></h1>
+                    </div>
+                    <group>
+                        <group string="Pricing &amp; Billing">
+                            <field name="price"/>
+                            <field name="billing_period"/>
+                            <field name="min_quantity"/>
+                        </group>
+                        <group string="Availability">
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Lifecycle Rules">
+                            <field name="auto_close"/>
+                            <field name="closable"/>
+                            <field name="pausable"/>
+                            <field name="renewable"/>
+                        </group>
+                        <group string="Invoicing Automation">
+                            <field name="auto_post"/>
+                            <field name="auto_send" invisible="not auto_post"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Describe what this plan is for..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_plan" model="ir.actions.act_window">
+        <field name="name">Plans</field>
+        <field name="res_model">brightloop.plan</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

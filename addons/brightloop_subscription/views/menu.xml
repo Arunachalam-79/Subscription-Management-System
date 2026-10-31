@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_brightloop_root" name="Brightloop"
+              groups="group_brightloop_staff" sequence="10"/>
+
+    <menuitem id="menu_subscriptions" name="Subscriptions" parent="menu_brightloop_root"
+              action="action_subscription" sequence="10"/>
+    <menuitem id="menu_invoices" name="Invoices" parent="menu_brightloop_root"
+              action="action_brightloop_invoices" sequence="20"/>
+    <menuitem id="menu_reporting" name="Analysis" parent="menu_brightloop_root"
+              action="action_subscription_report" sequence="50"/>
+
+    <menuitem id="menu_config" name="Configuration" parent="menu_brightloop_root"
+              groups="group_brightloop_admin" sequence="90"/>
+    <menuitem id="menu_plans" name="Plans" parent="menu_config" action="action_plan" sequence="10"/>
+    <menuitem id="menu_discounts" name="Discounts" parent="menu_config" action="action_discount" sequence="20"/>
+    <menuitem id="menu_templates" name="Quotation Templates" parent="menu_config"
+              action="action_qt" sequence="30"/>
+    <menuitem id="menu_run_billing" name="Run Billing Now" parent="menu_config"
+              action="action_run_billing" sequence="40"/>
+</odoo>

@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_plan_staff,plan staff,model_brightloop_plan,group_brightloop_staff,1,0,0,0
+access_plan_admin,plan admin,model_brightloop_plan,group_brightloop_admin,1,1,1,1
+access_discount_staff,discount staff,model_brightloop_discount,group_brightloop_staff,1,0,0,0
+access_discount_admin,discount admin,model_brightloop_discount,group_brightloop_admin,1,1,1,1
+access_qt_staff,template staff,model_brightloop_quotation_template,group_brightloop_staff,1,0,0,0
+access_qt_admin,template admin,model_brightloop_quotation_template,group_brightloop_admin,1,1,1,1
+access_qtl_staff,template line staff,model_brightloop_quotation_template_line,group_brightloop_staff,1,0,0,0
+access_qtl_admin,template line admin,model_brightloop_quotation_template_line,group_brightloop_admin,1,1,1,1
+access_sub_staff,subscription staff,model_brightloop_subscription,group_brightloop_staff,1,1,1,0
+access_sub_admin,subscription admin,model_brightloop_subscription,group_brightloop_admin,1,1,1,1
+access_sub_portal,subscription portal,model_brightloop_subscription,base.group_portal,1,0,0,0
+access_subl_staff,subscription line staff,model_brightloop_subscription_line,group_brightloop_staff,1,1,1,1
+access_subl_admin,subscription line admin,model_brightloop_subscription_line,group_brightloop_admin,1,1,1,1
+access_subl_portal,subscription line portal,model_brightloop_subscription_line,base.group_portal,1,0,0,0
+access_plan_portal,plan portal,model_brightloop_plan,base.group_portal,1,0,0,0

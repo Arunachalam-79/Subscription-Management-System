@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="cron_generate_invoices" model="ir.cron">
+        <field name="name">Brightloop: generate due invoices</field>
+        <field name="model_id" ref="model_brightloop_subscription"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_generate_invoices()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="user_id" ref="base.user_root"/>
+    </record>
+
+    <record id="cron_housekeeping" model="ir.cron">
+        <field name="name">Brightloop: close expired and remind about expiring</field>
+        <field name="model_id" ref="model_brightloop_subscription"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_housekeeping()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="user_id" ref="base.user_root"/>
+    </record>
+
+    <record id="action_run_billing" model="ir.actions.server">
+        <field name="name">Run Billing Now</field>
+        <field name="model_id" ref="model_brightloop_subscription"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_generate_invoices()</field>
+    </record>
+</odoo>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mail_template_quotation" model="mail.template">
+        <field name="name">Brightloop: Subscription Quotation</field>
+        <field name="model_id" ref="model_brightloop_subscription"/>
+        <field name="subject">Your subscription quotation {{ object.name }}</field>
+        <field name="email_to">{{ object.partner_id.email }}</field>
+        <field name="description">Sent to the customer with the quotation summary</field>
+        <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-size: 14px;">
+    <p>Hello <t t-out="object.partner_id.name or ''">Customer</t>,</p>
+    <p>
+        Thank you for your interest. Here is your quotation
+        <strong t-out="object.name or ''">SUB/00001</strong>
+        for the <strong t-out="object.plan_id.name or ''">Monthly</strong> plan
+        (billed <t t-out="object.plan_id.billing_period or ''">monthly</t>).
+    </p>
+    <table style="border-collapse: collapse; width: 100%;">
+        <tr style="border-bottom: 1px solid #ccc;">
+            <th style="text-align: left; padding: 4px;">Product</th>
+            <th style="text-align: right; padding: 4px;">Qty</th>
+            <th style="text-align: right; padding: 4px;">Subtotal</th>
+        </tr>
+        <tr t-foreach="object.line_ids" t-as="line" style="border-bottom: 1px solid #eee;">
+            <td style="padding: 4px;" t-out="line.product_id.display_name or ''">Product</td>
+            <td style="padding: 4px; text-align: right;" t-out="line.quantity or 0">1</td>
+            <td style="padding: 4px; text-align: right;"
+                t-out="line.subtotal or 0" t-options='{"widget": "monetary", "display_currency": object.currency_id}'>100.00</td>
+        </tr>
+    </table>
+    <p style="text-align: right;">
+        <strong>Total (incl. tax): </strong>
+        <t t-out="object.amount_total or 0" t-options='{"widget": "monetary", "display_currency": object.currency_id}'>100.00</t>
+    </p>
+    <p>Please reply to this email to accept the quotation.</p>
+    <p>Best regards,<br/><t t-out="object.user_id.name or ''">Your sales team</t></p>
+</div>
+        </field>
+    </record>
+</odoo>
